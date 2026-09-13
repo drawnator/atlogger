@@ -1,11 +1,25 @@
-# shell.nix
 { pkgs ? import <nixpkgs> {} }:
-pkgs.mkShell {
-  packages = [
-    (pkgs.python313.withPackages (python-pkgs: with python-pkgs; [
-      # select Python packages here
-      # mlflow
-      wandb
-    ]))
+
+let
+  python = pkgs.python313;
+in
+pkgs.mkShell rec {
+  name = "atlogger-dev";
+
+  venvDir = "./.venv";
+  buildInputs = [
+    python
+    python.pkgs.venvShellHook
+    python.pkgs.pip
+    python.pkgs.setuptools
+    python.pkgs.wandb
   ];
+
+  postVenvCreation = ''
+    unset SOURCE_DATE_EPOCH
+    pip install -e . --no-build-isolation
+  '';
+  postShellHook = ''
+    unset SOURCE_DATE_EPOCH
+  '';
 }
