@@ -3,6 +3,27 @@ Python decorator to log artifacts with mlflow, wandb
 
 Inspired by the talks with colleagues, frustrating nights and the [python logging documentation](https://docs.python.org/3/howto/logging-cookbook.html) I am attempting to develop a module to streamline the proper logging for model training and comparisons
 
+# How to use
+```python
+# main.py
+from atlogger import ATLOGGER, WandbHandler
+
+ATLOGGER.addHandler(
+    WandbHandler(
+      project="your_project_name",
+      config={"config":True},
+      level="DEBUG"
+      )
+  )
+```
+```python
+# lossFunc.py
+from atlogger import log
+
+@log
+loss(x1,x2):
+  return abs(x1 - x2)
+```
 # Principles 
 Ideally this project will have the following principles:
 * Non-intrusive:
@@ -16,3 +37,8 @@ Ideally this project will have the following principles:
     1. Ml training
     2. Compression algorithms
     3. async algorithms
+
+# Known bugs
+* if you use the decorator as @log instead of @log()the function will be passed as the variable "names" for some reason
+* Curently not accepting multiple outputs from functions
+* Creating the wandbhandler with config file for some reason does not get to this part of the login```wandb: Currently logged in as: <usr> to https://api.wandb.ai. Use `wandb login --relogin` to force relogin```

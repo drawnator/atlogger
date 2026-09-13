@@ -4,41 +4,64 @@
 
 import logging 
 import logging.config
-from dataclasses import dataclass
 import json
+import wandb
 
-def log(fn,level=logging.INFO):
-  # do something when importing fn with decorator
-  def wrapper(*args, **kwargs):
-    # do something before calling fn
-    output = fn(*args,**kwargs)
-    match level:
-      case logging.DEBUG:
-        ATLOGGER.debug(output)
-      case logging.INFO:
-        ATLOGGER.info(output)
-      case logging.WARN:
-        ATLOGGER.warn(output)
-      case logging.ERROR:
-        ATLOGGER.error(output)
-      case logging.CRITICAL:
-        ATLOGGER.critical(output)
-    return output
-  return wrapper
+def log(attributes:list|str=None,flush=True,level=logging.INFO):
+  def decorator(fn):
+    def wrapper(*args, **kwargs):
+      if callable(attributes) or attributes==None:
+        local_attributes = fn.__name__
+      else:
+        local_attributes = attributes
+      output = fn(*args,**kwargs)
+      match level:
+        case logging.DEBUG:
+          ATLOGGER.debug(output,extra={"names":attributes})
+        case logging.INFO:
+          ATLOGGER.info(output,extra={"names":attributes})
+        case logging.WARN:
+          ATLOGGER.warn(output,extra={"names":attributes})
+        case logging.ERROR:
+          ATLOGGER.error(output,extra={"names":attributes})
+        case logging.CRITICAL:
+          ATLOGGER.critical(output,extra={"names":attributes})
+      return output
+    return wrapper
+  return decorator
 
 class MlflowHandler(logging.Handler):
   def __init__(self,*args,**kwargs):
-    logging.Handler.__init__(self)
+    logging.Handler.__init__(self,**kwargs)
+    import mlflow
+    print("init MlflowHandler")
   def emit(self,record):
     pass
 
 class WandbHandler(logging.Handler):
-  def __init__(self,*args,**kwargs):
-    logging.Handler.__init__(self)
+  run:wandb.Run=None
+  def __init__(self,
+  *args,
+  project:str="unamed_project",
+  config:dict={},
+  run:wandb.Run=None,
+  **kwargs):
+    logging.Handler.__init__(self,**kwargs)
+    wandb.login()
+    if run is not None:
+      self.run = run
+    else:
+      self.run = wandb.init(project=project,config=config)
+    
   def emit(self,record):
-    pass
+    self.run.log({record.__dict__["names"]:record.msg})
+  def close(self):
+    self.run.finish()
+    super().close()
 
-with open("src/sample_config.json","r") as config_file:
-  config = json.load(config_file)
-logging.config.dictConfig(config)
+# with open("src/sample_config.json","r") as config_file:
+#   config = json.load(config_file)
+# logging.config.dictConfig(config)
 ATLOGGER = logging.getLogger(f"AtLogger")
+ATLOGGER.propagate = False
+ATLOGGER.setLevel(logging.DEBUG)
