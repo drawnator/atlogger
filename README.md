@@ -1,9 +1,12 @@
-# atlog
+# atlogger
 Python decorator to log artifacts with mlflow, wandb 
 
 Inspired by the talks with colleagues, frustrating nights and the [python logging documentation](https://docs.python.org/3/howto/logging-cookbook.html) I am attempting to develop a module to streamline the proper logging for model training and comparisons
 
 # How to use
+```bash
+export WANDB_API_KEY="wandb_key"
+```
 ```python
 # main.py
 from atlogger import ATLOGGER, WandbHandler
@@ -23,6 +26,10 @@ from atlogger import log
 @log
 loss(x1,x2):
   return abs(x1 - x2)
+
+@log("euclidean distance")
+calc_distance(x1,x2):
+  return sqrt(x1**2 - x2**2)
 ```
 # Principles 
 Ideally this project will have the following principles:
