@@ -15,17 +15,7 @@ def log(attributes:list|str=None,flush=True,level=logging.INFO):
       else:
         local_attributes = attributes
       output = fn(*args,**kwargs)
-      match level:
-        case logging.DEBUG:
-          ATLOGGER.debug(output,extra={"names":attributes})
-        case logging.INFO:
-          ATLOGGER.info(output,extra={"names":attributes})
-        case logging.WARN:
-          ATLOGGER.warn(output,extra={"names":attributes})
-        case logging.ERROR:
-          ATLOGGER.error(output,extra={"names":attributes})
-        case logging.CRITICAL:
-          ATLOGGER.critical(output,extra={"names":attributes})
+      ATLOGGER.log(level,output,extra={"names":attributes})
       return output
     return wrapper
   return decorator
