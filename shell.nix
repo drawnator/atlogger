@@ -13,6 +13,15 @@ pkgs.mkShell rec {
     python.pkgs.pip
     python.pkgs.setuptools
     python.pkgs.wandb
+    #examples
+    python.pkgs.torch
+    python.pkgs.torchvision
+    python.pkgs.numpy
+    python.pkgs.keras
+    python.pkgs.tensorflow
+    python.pkgs.tqdm
+    python.pkgs.jupyter
+    python.pkgs.notebook
   ];
 
   postVenvCreation = ''
