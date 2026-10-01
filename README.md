@@ -1,5 +1,5 @@
 # atlogger
-Python decorator to log artifacts with mlflow, wandb 
+Python decorator to log artifacts with mlflow, wandb, rerun, etc
 
 Inspired by the talks with colleagues, frustrating nights and the [python logging documentation](https://docs.python.org/3/howto/logging-cookbook.html) I am attempting to develop a module to streamline the proper logging for model training and comparisons
 
@@ -48,4 +48,14 @@ Ideally this project will have the following principles:
 # Known bugs
 * if you use the decorator as @log instead of @log()the function will be passed as the variable "names" for some reason
 * Curently not accepting multiple outputs from functions
-* Creating the wandbhandler with config file for some reason does not get to this part of the login```wandb: Currently logged in as: <usr> to https://api.wandb.ai. Use `wandb login --relogin` to force relogin```
+* Creating the wandbhandler within config file for some reason does not get to this part of the login```wandb: Currently logged in as: <usr> to https://api.wandb.ai. Use `wandb login --relogin` to force relogin```
+* running logger inside jupyter notebook ony works for one cell
+
+# Current Goals
+* Add a basic implementation of mlflow, rerun, profiling 
+* Only uses packages you have installed
+* Enable choice of what happens if logging fail: break, or ignore
+* Continue experiments
+* Log artifacts like images or models
+* Pass custom logger and custom formatter per call
+* add custom ENUMs instead of DEBUG, WARN, INFO...
