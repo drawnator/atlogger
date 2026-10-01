@@ -29,12 +29,12 @@ class MlflowHandler(logging.Handler):
     pass
 
 class WandbHandler(logging.Handler):
-  run:wandb.Run=None
+  run=None
   def __init__(self,
   *args,
   project:str="unamed_project",
   config:dict={},
-  run:wandb.Run=None,
+  run=None,
   **kwargs):
     logging.Handler.__init__(self,**kwargs)
     wandb.login()
