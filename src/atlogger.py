@@ -7,7 +7,7 @@ import logging.config
 import json
 import wandb
 
-def log(attributes:list|str=None,flush=True,level=logging.INFO):
+def log(attributes:str=None,flush=True,level=logging.INFO):
   def decorator(fn):
     def wrapper(*args, **kwargs):
       if callable(attributes) or attributes==None:
@@ -15,7 +15,7 @@ def log(attributes:list|str=None,flush=True,level=logging.INFO):
       else:
         local_attributes = attributes
       output = fn(*args,**kwargs)
-      ATLOGGER.log(level,output,extra={"names":attributes})
+      ATLOGGER.log(level,output,extra={"names":local_attributes,"kwargs":kwargs})
       return output
     return wrapper
   return decorator
@@ -44,7 +44,7 @@ class WandbHandler(logging.Handler):
       self.run = wandb.init(project=project,config=config)
     
   def emit(self,record):
-    self.run.log({record.__dict__["names"]:record.msg})
+    self.run.log({record.__dict__["names"]:record.msg})#,**record.__dict__["kwargs"])
   def close(self):
     self.run.finish()
     super().close()
