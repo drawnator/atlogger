@@ -1,5 +1,5 @@
 # atlogger
-Python decorator to log artifacts with mlflow, wandb, rerun, etc
+Python decorator to log artifacts with mlflow, wandb, rerun, tensorboard, etc...
 
 Inspired by the talks with colleagues, frustrating nights and the [python logging documentation](https://docs.python.org/3/howto/logging-cookbook.html) I am attempting to develop a module to streamline the proper logging for model training and comparisons
 

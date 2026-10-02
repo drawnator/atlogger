@@ -1,6 +1,6 @@
 [project]
 name="atlogger"
-version = "0.0.4"
+version = "0.0.5"
 authors = [
   { name="Guilherme Toledo", email="toledo@guilherme.zip" },
 ]
