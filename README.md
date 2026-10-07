@@ -44,9 +44,10 @@ Ideally this project will have the following principles:
     1. Ml training
     2. Compression algorithms
     3. async algorithms
+    4. profiling algorithm duration
+    5. reinforcement learning / robotics
 
 # Known bugs
-* if you use the decorator as @log instead of @log()the function will be passed as the variable "names" for some reason
 * Curently not accepting multiple outputs from functions
 * Creating the wandbhandler within config file for some reason does not get to this part of the login```wandb: Currently logged in as: <usr> to https://api.wandb.ai. Use `wandb login --relogin` to force relogin```
 * running logger inside jupyter notebook ony works for one cell
@@ -58,4 +59,3 @@ Ideally this project will have the following principles:
 * Continue experiments
 * Log artifacts like images or models
 * Pass custom logger and custom formatter per call
-* add custom ENUMs instead of DEBUG, WARN, INFO...

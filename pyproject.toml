@@ -1,24 +1,27 @@
 [project]
 name="atlogger"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
   { name="Guilherme Toledo", email="toledo@guilherme.zip" },
 ]
 description = "Python decorator to log artifacts with mlflow, wandb"
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
 license = "CC0-1.0"
 license-files = ["LICEN[CS]E*"]
-dependencies = [
-  "wandb",
-]
+
+dependencies = []
+
 [project.urls]
 Homepage = "https://github.com/drawnator/atlog"
 
+[project.scripts]
+atlogger = "atlogger:main"
+
 [build-system]
-requires = ["setuptools >= 77.0.3"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.12.11,<0.13.0"]
+build-backend = "uv_build"

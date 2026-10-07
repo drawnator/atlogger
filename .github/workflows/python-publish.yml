@@ -24,9 +24,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9
+
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version-file: "pyproject.toml"
 
       - name: Build release distributions
         run: |
